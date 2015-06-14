@@ -3,9 +3,10 @@ path       = require 'path'
 gulp       = require 'gulp'
 gutil      = require 'gulp-util'
 jade       = require 'gulp-jade'
-coffee     = require 'gulp-coffee'
 stylus     = require 'gulp-stylus'
 CSSmin     = require 'gulp-minify-css'
+browserify = require 'browserify'
+watchify   = require 'watchify'
 uglify     = require 'gulp-uglify'
 rimraf     = require 'rimraf'
 lr         = require 'tiny-lr'
@@ -19,6 +20,8 @@ less       = require 'gulp-less'
 replace    = require 'gulp-replace'
 rev        = require 'gulp-rev'
 express    = require 'express'
+source     = require 'vinyl-source-stream'
+streamify  = require 'gulp-streamify'
 es         = require 'event-stream'
 reloadServer = lr()
 
@@ -28,28 +31,44 @@ production = process.env.NODE_ENV is 'production'
 rimraf.sync './public'
 
 gulp.task 'coffee', ->
-  vendorScripts = ['vendor/angular/angular.js']
+  entries = [
+    path: './src/coffee/main.coffee'
+    file: 'main.js'
+  ,
+    path: './src/coffee/ie.coffee'
+    file: 'ie.js'
+  ]
 
-  vendor = gulp
-    .src(vendorScripts)
+  es.concat.apply es, entries.map (entry) ->
+    opts =
+      entries: [entry.path]
+      extensions: ['.coffee']
 
-  js = gulp
-    .src('src/coffee/**/*.coffee')
-    .pipe(coffee()
-      .on('error', gutil.log))
+    bundle = unless production
+      watchify opts
+    else
+      browserify opts
 
-  js = js.pipe(uglify()) if production
+    rebundle = ->
+      build = bundle.bundle
+          debug: not production
+        .on 'error', gutil.log
+        .pipe(source(entry.file))
 
-  es.merge js, vendor
-    .pipe(concat 'main.js')
-    .pipe(gulp.dest('./public/'))
-    .pipe(livereload(reloadServer))
+      build.pipe(streamify(uglify())) if production
+
+      build
+        .pipe(gulp.dest('./public'))
+        .pipe(livereload(reloadServer))
+
+    bundle.on 'update', rebundle unless production
+    rebundle()
 
 gulp.task 'jade', ->
   gulp
     .src('src/jade/*.jade')
     .pipe(jade(pretty: not production))
-    .pipe(gulp.dest('public/'))
+    .pipe(gulp.dest('./public'))
     .pipe livereload(reloadServer)
 
 gulp.task 'semantic-config', ->
@@ -81,7 +100,7 @@ gulp.task 'stylus', ['semantic-config'], ->
     .pipe cmq()
     .on 'error', err
 
-  styles = styles.pipe(CSSmin()) if production
+  styles = styles.pipe(CSSmin(keepSpecialComments: 0)) if production
 
   styles
     .pipe(prefix('last 2 versions', 'Chrome 33', 'Firefox 28', 'Explorer >= 8', 'iOS 7', 'Safari 7'))

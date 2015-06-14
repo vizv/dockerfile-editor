@@ -1,1 +1,1 @@
-@app = angular.module 'dockerfileEditor', []
+require './controllers/editor'
