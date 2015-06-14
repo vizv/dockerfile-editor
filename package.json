@@ -2,6 +2,16 @@
   "name": "dockerfile-editor",
   "version": "0.0.1",
   "author": "Viz <viz@linux.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/vizv/dockerfile-editor/blob/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vizv/dockerfile-editor"
+  },
   "description": "Online Editor for Dockerfile",
   "main": "gulpfile.js",
   "scripts": {
