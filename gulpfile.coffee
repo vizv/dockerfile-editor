@@ -149,7 +149,10 @@ gulp.task 'watch', ->
 
 gulp.task 'revision', ['revision-files', 'replace-references']
 
-buildTasks = ['coffee', 'jade', 'stylus', 'assets', 'content']
+gulp.task 'clean', (cb) ->
+  rimraf.sync './public', cb
+
+buildTasks = ['clean', 'coffee', 'jade', 'stylus', 'assets', 'content']
 buildTasks = buildTasks.concat ['compress', 'revision'] if production
 
 gulp.task 'build', buildTasks
