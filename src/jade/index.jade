@@ -19,5 +19,13 @@ html(lang="zh-Hans", data-ng-app="dockerfileEditor")
     link(rel='icon', type='image/png', href='favicon-16x16.png', sizes='16x16')
   body
     h1 Dockerfile 在线编辑器
+    .ui.two.column.middle.aligned.relaxed.fitted.stackable.grid
+      .center.aligned.column
+        .segment test
+      .ui.vertical.divider
+        i.fa.fa-arrow-right.icon
+      .center.aligned.column
+        .segment test
+
     .editor(data-ng-controller="Editor")
-      button(data-ng-click="test()") Angular Test Button
+      .ui.primary.button(data-ng-click="test()") Angular Test Button

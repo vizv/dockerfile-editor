@@ -164,7 +164,7 @@ gulp.task 'watch', ->
     gulp.watch 'src/stylus/**/*.styl', ['stylus']
     gulp.watch 'src/less/**/*.less', ['stylus']
     gulp.watch 'src/assets/**/*.*', ['assets']
-    gulp.watch 'semantic-ui/**/*', ['semantic-config']
+    gulp.watch 'semantic-ui/**/*', ['semantic-config', 'coffee', 'stylus']
 
 gulp.task 'revision', ['revision-files', 'replace-references']
 

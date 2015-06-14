@@ -1,3 +1,7 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+@dividerIconMargin: -1rem 0 0 0;
+@dividerIconSize: 2rem;
+@verticalDividerMargin: 2rem;
