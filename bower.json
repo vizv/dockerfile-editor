@@ -1,7 +1,9 @@
 {
   "name": "dockerfile-editor",
   "version": "0.0.1",
-  "authors": ["Viz <viz@linux.com>"],
+  "authors": [
+    "Viz <viz@linux.com>"
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -11,6 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "font-awesome": "~4.0.3"
+    "font-awesome": "~4.0.3",
+    "semantic-ui": "~1.12.3"
   }
 }

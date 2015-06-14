@@ -39,14 +39,23 @@ gulp.task 'coffee', ->
     .pipe(concat 'main.js')
     .pipe(livereload(reloadServer))
 
-gulp.task "jade", ->
+gulp.task 'jade', ->
   gulp
     .src('src/jade/*.jade')
     .pipe(jade(pretty: not production))
     .pipe(gulp.dest('public/'))
     .pipe livereload(reloadServer)
 
-gulp.task 'stylus', ->
+gulp.task 'semantic-config', ->
+  gulp
+    .src('semantic-ui/theme.config')
+    .pipe(gulp.dest('vendor/semantic-ui/src/'))
+
+  gulp
+    .src('semantic-ui/site/**/*')
+    .pipe(gulp.dest('vendor/semantic-ui/src/site/'))
+
+gulp.task 'stylus', ['semantic-config'], ->
   err = (err) ->
     gutil.beep()
     gutil.log err
@@ -124,12 +133,13 @@ gulp.task "watch", ->
   reloadServer.listen 35729, (err) ->
     console.error err if err?
 
-    gulp.watch "src/coffee/**/*.cson", ["content"]
-    gulp.watch "src/coffee/**/*.coffee", ["coffee"]
-    gulp.watch "src/jade/**/*.jade", ["jade"]
-    gulp.watch "src/stylus/**/*.styl", ["stylus"]
-    gulp.watch "src/less/**/*.less", ["stylus"]
-    gulp.watch "src/assets/**/*.*", ["assets"]
+    gulp.watch 'src/coffee/**/*.cson', ['content']
+    gulp.watch 'src/coffee/**/*.coffee', ['coffee']
+    gulp.watch 'src/jade/**/*.jade', ['jade']
+    gulp.watch 'src/stylus/**/*.styl', ['stylus']
+    gulp.watch 'src/less/**/*.less', ['stylus']
+    gulp.watch 'src/assets/**/*.*', ['assets']
+    gulp.watch 'semantic-ui/**/*', ['semantic-config']
 
 gulp.task "revision", ["revision-files", "replace-references"]
 
