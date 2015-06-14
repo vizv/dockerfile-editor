@@ -1,0 +1,16 @@
+{
+  "name": "dockerfile-editor",
+  "version": "0.0.1",
+  "authors": ["Viz <viz@linux.com>"],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.0.3"
+  }
+}
