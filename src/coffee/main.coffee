@@ -1,1 +1,1 @@
-console.log "test"
+@app = angular.module 'dockerfileEditor', []

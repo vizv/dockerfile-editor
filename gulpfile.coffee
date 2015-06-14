@@ -28,6 +28,11 @@ production = process.env.NODE_ENV is 'production'
 rimraf.sync './public'
 
 gulp.task 'coffee', ->
+  vendorScripts = ['vendor/angular/angular.js']
+
+  vendor = gulp
+    .src(vendorScripts)
+
   js = gulp
     .src('src/coffee/**/*.coffee')
     .pipe(coffee()
@@ -35,8 +40,9 @@ gulp.task 'coffee', ->
 
   js = js.pipe(uglify()) if production
 
-  js.pipe(gulp.dest('./public/'))
+  es.merge js, vendor
     .pipe(concat 'main.js')
+    .pipe(gulp.dest('./public/'))
     .pipe(livereload(reloadServer))
 
 gulp.task 'jade', ->

@@ -1,5 +1,5 @@
 doctype html
-html(lang="zh-Hans")
+html(lang="zh-Hans", data-ng-app="dockerfileEditor")
   head
     meta(charset="UTF-8")
     title Dockerfile 在线编辑器
@@ -18,3 +18,5 @@ html(lang="zh-Hans")
     link(rel='icon', type='image/png', href='favicon-16x16.png', sizes='16x16')
   body
     h1 Dockerfile 在线编辑器
+    .editor(data-ng-controller="Editor")
+      button(data-ng-click="test()") Angular Test Button
