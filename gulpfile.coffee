@@ -100,7 +100,7 @@ gulp.task 'content', ->
     .pipe gulp.dest 'public/'
     .pipe livereload(reloadServer)
 
-gulp.task 'revision-files', ["coffee", "stylus", "compress"],  ->
+gulp.task 'revision-files', ['coffee', 'stylus', 'compress'],  ->
   gulp
     .src ['public/**/*.js', 'public/**/*.css', 'public/images*/**/*']
     .pipe rev()
@@ -118,7 +118,7 @@ gulp.task 'replace-references', ['revision-files'], ->
 
   build.pipe gulp.dest 'public/'
 
-gulp.task "server", ->
+gulp.task 'server', ->
   app = express()
 
   app.configure ->
@@ -129,7 +129,7 @@ gulp.task "server", ->
 
   app.listen 9001
 
-gulp.task "watch", ->
+gulp.task 'watch', ->
   reloadServer.listen 35729, (err) ->
     console.error err if err?
 
@@ -141,11 +141,11 @@ gulp.task "watch", ->
     gulp.watch 'src/assets/**/*.*', ['assets']
     gulp.watch 'semantic-ui/**/*', ['semantic-config']
 
-gulp.task "revision", ["revision-files", "replace-references"]
+gulp.task 'revision', ['revision-files', 'replace-references']
 
-buildTasks = ["coffee", "jade", "stylus", "assets", "content"]
-buildTasks = buildTasks.concat ["compress", "revision"] if production
+buildTasks = ['coffee', 'jade', 'stylus', 'assets', 'content']
+buildTasks = buildTasks.concat ['compress', 'revision'] if production
 
-gulp.task "build", buildTasks
+gulp.task 'build', buildTasks
 
-gulp.task "default", ["build", "watch", "server"]
+gulp.task 'default', ['build', 'watch', 'server']
