@@ -1,3 +1,8 @@
 angular = require 'angular'
+Editor = require './controllers/editor'
 
-module.exports = angular.module 'dockerfileEditor', []
+app = angular.module 'dockerfileEditor', []
+
+app.controller 'Editor', Editor
+
+module.exports = app;
