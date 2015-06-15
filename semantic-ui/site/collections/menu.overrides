@@ -1,3 +1,28 @@
 /*******************************
          Site Overrides
 *******************************/
+
+.ui.xlarge.menu .item > .input input {
+  top: @xlargeInputOffset;
+  padding-bottom: @xlargeInputVerticalPadding;
+  padding-top: @xlargeInputVerticalPadding;
+}
+.ui.xlarge.menu .item > .input .button,
+.ui.xlarge.menu .item > .input .label {
+  padding-top: @xlargeInputVerticalPadding;
+  padding-bottom: @xlargeInputVerticalPadding;
+}
+
+/* Large */
+.ui.xlarge.menu .item {
+  font-size: @xlarge;
+}
+.ui.xlarge.menu .item .item {
+  font-size: @xlargeSubMenu;
+}
+.ui.xlarge.menu .dropdown .item {
+  font-size: @xlargeDropdown;
+}
+.ui.xlarge.vertical.menu {
+  width: @xlargeWidth;
+}

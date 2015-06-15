@@ -1,3 +1,10 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+@xlargeInputOffset: -0.125em;
+@xlargeInputVerticalPadding: 0.6em;
+@xlarge: 1.5rem;
+@xlargeSubMenu: 0.875rem;
+@xlargeDropdown: 1rem;
+@xlargeWidth: 18rem;

@@ -1,7 +1,7 @@
 doctype html
-html(lang="zh-Hans", data-ng-app="dockerfileEditor")
+html(lang='zh-Hans', data-ng-app='dockerfileEditor')
   head
-    meta(charset="UTF-8")
+    meta(charset='UTF-8')
     title Dockerfile 在线编辑器
     link(rel='stylesheet', href='main.css')
     script(src='main.js')
@@ -18,14 +18,19 @@ html(lang="zh-Hans", data-ng-app="dockerfileEditor")
     link(rel='icon', type='image/png', href='favicon-24x24.png', sizes='24x24')
     link(rel='icon', type='image/png', href='favicon-16x16.png', sizes='16x16')
   body
-    h1 Dockerfile 在线编辑器
-    .ui.two.column.middle.aligned.relaxed.fitted.stackable.grid
-      .center.aligned.column
-        .segment test
-      .ui.vertical.divider
-        i.fa.fa-arrow-right.icon
-      .center.aligned.column
-        .segment test
+    .app
+      .ui.fixed.inverted.main.xlarge.menu
+        .ui.page.grid
+          .sixteen.wide.column
+            .title.item
+              b Dockerfile 在线编辑器
+      .editor(data-ng-controller='Editor')
+        .ui.two.column.middle.aligned.relaxed.fitted.stackable.page.grid
+          .center.aligned.column
+            .segment
+              .ui.primary.button(data-ng-click='test()') Angular Test Button
+          .ui.vertical.divider
+            i.fa.fa-arrow-right.icon
+          .center.aligned.column
+            .segment test
 
-    .editor(data-ng-controller="Editor")
-      .ui.primary.button(data-ng-click="test()") Angular Test Button
