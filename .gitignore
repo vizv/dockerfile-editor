@@ -3,3 +3,4 @@
 /vendor/
 rev-manifest.json
 npm-debug.log
+*.swp
