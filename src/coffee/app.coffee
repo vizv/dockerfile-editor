@@ -1,4 +1,4 @@
-angular = require 'angular'
+require 'angular'
 Editor = require './controllers/editor'
 
 app = angular.module 'dockerfileEditor', []
