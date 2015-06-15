@@ -1,1 +1,1 @@
-require './controllers/editor'
+require './app'
