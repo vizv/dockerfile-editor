@@ -3,7 +3,7 @@
 ## TODO 主要功能
 * ~~页面布局~~
 * 功能性按钮
-* 设置上游镜像
+* ~~设置源镜像~~
 * 设置维护者
 * Dockfile 主体
   - 注释
@@ -19,6 +19,7 @@
   - USER
   - WORKDIR
   - ONBUILD
+* 构建 Dockerfile
 
 ## TODO 次要功能
 * 检查 Dockefile 和版本兼容性

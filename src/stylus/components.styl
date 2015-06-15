@@ -1,0 +1,55 @@
+.ui.left.viz.input
+  width 100%
+
+  // set border-radius
+  & > *
+    border-radius 0
+  & > :first-child
+    border-top-left-radius 0.2857rem
+    border-bottom-left-radius 0.2857rem
+  & > :last-child
+    border-top-right-radius 0.2857rem
+    border-bottom-right-radius 0.2857rem
+
+  & > .icon
+    top 0
+    margin 0
+    vertical-align top
+    background-color #E8E8E8
+    border-color #E8E8E8
+    color rgba(0, 0, 0, 0.6)
+
+    position absolute
+    width 2.57142em
+    height 100%
+
+    &::before
+      display block
+      position absolute
+      width 100%
+      text-align center
+      top 50%
+      margin-top -0.5em
+
+  & > .label
+    margin 0
+    padding 0.78571em
+    padding-right 0
+    font-size 1rem
+    font-weight bold
+    white-space nowrap
+
+  input
+    padding-right 1em !important
+    min-width 60px
+    width: auto
+
+    margin-left 2.57142em
+
+    // set border
+    border-left 0
+    border-right 0
+    &:first-child
+      border-left 1px solid rgba(0, 0, 0, 0.15)
+    &:last-child
+      border-right 1px solid rgba(0, 0, 0, 0.15)

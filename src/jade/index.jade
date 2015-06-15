@@ -26,9 +26,17 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
               b Dockerfile 在线编辑器
       .editor(data-ng-controller='Editor')
         .ui.two.column.middle.aligned.relaxed.fitted.stackable.page.grid
-          .center.aligned.column
+          .column
             .segment
-              .ui.primary.button(data-ng-click='test()') Angular Test Button
+              p
+                .ui.left.viz.input
+                  .ui.label 源镜像
+                  i.di.di-docker-plain.icon
+                  input(placeholder='ubuntu', type='text', style='width: 240px')
+                  i.fa.fa-tag.icon
+                  input(placeholder='latest', type='text')
+              p
+                .ui.primary.button(data-ng-click='test()') Angular Test Button
           .ui.vertical.divider
             i.fa.fa-arrow-right.icon
           .center.aligned.column
