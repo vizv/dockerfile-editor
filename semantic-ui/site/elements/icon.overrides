@@ -1,8 +1,3 @@
 /*******************************
          Site Overrides
 *******************************/
-
-// Force use FontAwesome
-i.icon {
-  font-family: 'FontAwesome';
-}

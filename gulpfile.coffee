@@ -109,7 +109,7 @@ gulp.task 'stylus', ['semantic-config'], ->
 
 gulp.task 'assets', ->
   gulp
-    .src ['src/assets/**/*', 'src/assets/**/.*', 'vendor/font-awesome/fonts*/*.*']
+    .src ['src/assets/**/*', 'src/assets/**/.*', 'vendor/font-awesome/fonts*/*.*', 'vendor/devicon/fonts*/*.*']
     .pipe gulp.dest 'public/'
 
 gulp.task 'compress', ['assets'], ->
