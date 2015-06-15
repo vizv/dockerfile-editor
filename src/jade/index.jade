@@ -25,29 +25,39 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
             .title.item
               b Dockerfile 在线编辑器
       .editor(data-ng-controller='Editor')
-        .ui.two.column.middle.aligned.relaxed.fitted.stackable.page.grid
-          .column
+        .ui.two.column.middle.aligned.relaxed.fitted.stackable.page.padding.grid
+          .padding.column
             .segment
               p
                 .ui.left.viz.input
                   .ui.label 源镜像
                   i.di.di-docker-plain.icon
-                  input(placeholder='ubuntu', type='text', style='width: 240px')
+                  input(placeholder='{{default.from.image}}', type='text', style='width: 240px', value='', data-ng-model='docker.from.image')
                   i.fa.fa-tag.icon
-                  input(placeholder='latest', type='text')
+                  input(placeholder='{{default.from.tag}}', type='text', value='', data-ng-model='docker.from.tag')
               p
                 .ui.left.viz.input
                   .ui.label 维护者
                   i.fa.fa-user.icon
-                  input(placeholder='Anonymous', type='text')
+                  input(placeholder='{{default.maintainer.name}}', type='text', value='', data-ng-model='docker.maintainer.name')
                   i.fa.fa-envelope.icon
-                  input(placeholder='anonymous@example.com', type='text', style='width: 280px')
+                  input(placeholder='{{default.maintainer.email}}', type='text', style='width: 280px', value='', data-ng-model='docker.maintainer.email')
+            .body.segment
+              p STUB
+              p STUB
+              p STUB
+              p STUB
+              p STUB
+              p STUB
+              p STUB
               p
                 .ui.primary.button(data-ng-click='test()') Angular Test Button
           .ui.vertical.divider
             i.fa.fa-arrow-right.icon
-          .center.aligned.column
-            .segment
-              i.di.di-docker-plain.icon
-              | test
+          .padding.column
+            .padding.segment
+              p
+                .padding.ui.form
+                  textarea(readonly, style='height: 100%; resize: none;')
+                    | {{genDockerfile()}}
 

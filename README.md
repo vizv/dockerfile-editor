@@ -4,7 +4,7 @@
 * ~~页面布局~~
 * 功能性按钮
 * ~~设置源镜像~~
-* 设置维护者
+* ~~设置维护者~~
 * Dockfile 主体
   - 注释
   - RUN
@@ -20,6 +20,8 @@
   - WORKDIR
   - ONBUILD
 * 构建 Dockerfile
+  - ~~Header~~
+  - Body
 
 ## TODO 次要功能
 * 检查 Dockefile 和版本兼容性
