@@ -4,8 +4,10 @@
 * ~~页面布局~~
 * 功能性按钮
 * ~~设置源镜像~~
+* 从 Docker Registry 搜索源镜像
+* Dockerfile 语法高亮
 * ~~设置维护者~~
-* Dockfile 主体
+* Dockerfile 主体
   - 注释
   - RUN
   - CMD
