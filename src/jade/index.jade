@@ -36,6 +36,13 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
                   i.fa.fa-tag.icon
                   input(placeholder='latest', type='text')
               p
+                .ui.left.viz.input
+                  .ui.label 维护者
+                  i.fa.fa-user.icon
+                  input(placeholder='Anonymous', type='text')
+                  i.fa.fa-envelope.icon
+                  input(placeholder='anonymous@example.com', type='text', style='width: 280px')
+              p
                 .ui.primary.button(data-ng-click='test()') Angular Test Button
           .ui.vertical.divider
             i.fa.fa-arrow-right.icon
