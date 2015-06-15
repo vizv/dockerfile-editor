@@ -1,6 +1,4 @@
-app = require '../app'
-
-app.controller 'Editor', ['$scope', ($scope) ->
+module.exports = ['$scope', ($scope) ->
   $scope.test = ->
     console.log 'test'
 ]
