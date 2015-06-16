@@ -43,15 +43,15 @@ gulp.task 'coffee', ->
     opts =
       entries: [entry.path]
       extensions: ['.coffee']
+      cache: {}
+      debug: not production
+      packageCache: {}
 
-    bundle = unless production
-      watchify opts
-    else
-      browserify opts
+    bundle = browserify opts
+    bundle = watchify bundle unless production
 
     rebundle = ->
-      build = bundle.bundle
-          debug: not production
+      build = bundle.bundle()
         .on 'error', gutil.log
         .pipe(source(entry.file))
 
@@ -146,8 +146,7 @@ gulp.task 'replace-references', ['revision-files'], ->
 gulp.task 'server', ->
   app = express()
 
-  app.configure ->
-    app.use express.static path.join __dirname, 'public'
+  app.use express.static 'public'
 
   app.get '/*', (req, res) ->
     res.sendfile path.join __dirname, 'public/index.html'
@@ -169,7 +168,7 @@ gulp.task 'watch', ->
 gulp.task 'revision', ['revision-files', 'replace-references']
 
 gulp.task 'clean', (cb) ->
-  rimraf.sync './public', cb
+  rimraf './public', cb
 
 buildTasks = ['clean', 'coffee', 'jade', 'stylus', 'assets', 'content']
 buildTasks = buildTasks.concat ['compress', 'revision'] if production
