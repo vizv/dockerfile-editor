@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "angular": "^1.4.0",
+    "devicon": "git+https://github.com/konpa/devicon.git#89f2f44ba07ea3fff7e561c2142813b278c2d6c6",
     "browserify": "^10.2.4",
     "coffeeify": "^1.1.0",
     "event-stream": "^3.3.1",
