@@ -1,6 +1,5 @@
 /node_modules/
 /public/
-/vendor/
 rev-manifest.json
 npm-debug.log
 *.swp

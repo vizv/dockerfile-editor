@@ -15,7 +15,6 @@
   "description": "Online Editor for Dockerfile",
   "main": "gulpfile.js",
   "scripts": {
-    "prepublish": "bower install",
     "start": "gulp",
     "build": "NODE_ENV=production gulp build"
   },
@@ -28,12 +27,11 @@
   },
   "devDependencies": {
     "angular": "^1.4.0",
-    "bower": "^1.4.1",
     "browserify": "^10.2.4",
-    "browserify-shim": "^3.8.8",
     "coffeeify": "^1.1.0",
     "event-stream": "^3.3.1",
     "express": "^5.0.0-alpha.1",
+    "font-awesome": "^4.3.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-browserify": "^0.5.1",
@@ -53,21 +51,18 @@
     "gulp-stylus": "^2.0.4",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5",
+    "jquery": "^2.1.4",
+    "perfect-scrollbar": "^0.6.2",
     "rimraf": "^2.4.0",
+    "semantic-ui-less": "^1.12.3",
     "tiny-lr": "^0.1.6",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2"
   },
-  "browser": {
-    "angular": "./vendor/angular/angular.js"
-  },
-  "browserify-shim": {
-    "angular": "angular"
-  },
+  "browser": {},
   "browserify": {
     "transform": [
-      "coffeeify",
-      "browserify-shim"
+      "coffeeify"
     ]
   }
 }

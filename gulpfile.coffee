@@ -74,11 +74,11 @@ gulp.task 'jade', ->
 gulp.task 'semantic-config', ->
   gulp
     .src('semantic-ui/theme.config')
-    .pipe(gulp.dest('vendor/semantic-ui/src/'))
+    .pipe(gulp.dest('node_modules/semantic-ui-less/'))
 
   gulp
     .src('semantic-ui/site/**/*')
-    .pipe(gulp.dest('vendor/semantic-ui/src/site/'))
+    .pipe(gulp.dest('node_modules/semantic-ui-less/site/'))
 
 gulp.task 'stylus', ['semantic-config'], ->
   err = (err) ->
@@ -109,7 +109,7 @@ gulp.task 'stylus', ['semantic-config'], ->
 
 gulp.task 'assets', ->
   gulp
-    .src ['src/assets/**/*', 'src/assets/**/.*', 'vendor/font-awesome/fonts*/*.*', 'vendor/devicon/fonts*/*.*']
+    .src ['src/assets/**/*', 'src/assets/**/.*', 'node_modules/font-awesome/fonts*/*.*', 'node_modules/devicons/fonts*/*.*']
     .pipe gulp.dest 'public/'
 
 gulp.task 'compress', ['assets'], ->
@@ -149,7 +149,7 @@ gulp.task 'server', ->
   app.use express.static 'public'
 
   app.get '/*', (req, res) ->
-    res.sendfile path.join __dirname, 'public/index.html'
+    res.sendFile path.join __dirname, 'public/index.html'
 
   app.listen 9001
 
