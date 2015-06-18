@@ -42,17 +42,22 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
                   input(placeholder='{{default.maintainer.name}}', type='text', value='', data-ng-model='docker.maintainer.name')
                   i.fa.fa-envelope.icon
                   input(placeholder='{{default.maintainer.email}}', type='text', style='width: 280px', value='', data-ng-model='docker.maintainer.email')
-            .ui.scroller(wheel-propagation="true" wheel-speed="10" min-scrollbar-length="20")
+            .ui.scroller
               .segment
-                p STUB
-                p STUB
-                p STUB
-                p STUB
-                p STUB
-                p STUB
-                p STUB
+                .ui.divided.list
+                  .item(data-ng-repeat='ins in instructions')
+                    .ui.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.checked = !ins.checked')
+                      input(type="checkbox", data-ng-model='ins.checked')
+                      label
+                    .ui.floating.dropdown.labeled.button(data-ng-click='ins.showDropdown = !ins.showDropdown')
+                      span.text {{DockerInstruction.types[ins.type]}}
+                      .menu.transition(data-ng-class='{visible: ins.showDropdown}')
+                        .item(data-ng-repeat='type in DockerInstruction.types') {{type}}
+                    // TODO: render instructions
                 p
-                  .ui.primary.button(data-ng-click='test()') Angular Test Button
+                  .ui.green.fluid.button(data-ng-click='newInstruction()')
+                    i.fa.fa-plus.icon
+                    | 新指令
           .ui.vertical.divider
             i.fa.fa-arrow-right.icon
           .padding.column
