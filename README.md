@@ -30,3 +30,5 @@
 * 解决 ADD/COPY 文件夹问题
 * 设置行宽，对于太长的行进行折行
 * Dockerfile 实时文档
+* 保存到浏览器 Local Storage
+* 载入 Dockerfile

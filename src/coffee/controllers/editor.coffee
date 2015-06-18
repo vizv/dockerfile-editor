@@ -1,27 +1,50 @@
 Ps = require 'perfect-scrollbar'
-
-class DockerInstruction
-  @types = [
-    '空行'
-    '注释'
-    'RUN'
-    'CMD'
-    'LABEL'
-    'EXPOSE'
-    'ENV'
-    'ADD'
-    'COPY'
-    'ENTRYPOINT'
-    'VOLUME'
-    'USER'
-    'WORKDIR'
-    'ONBUILD'
-  ]
-  constructor: (@checked = false, @type = @constructor.types.indexOf('空行'), @data = {}) ->
+_ = require 'underscore'
 
 module.exports = ['$scope', '$document', ($scope, $document) ->
+  # constants
+  $scope.instructionTypes = [
+    [
+      '空行'
+      '注释'
+      'RUN'
+      'CMD'
+    ]
+    [
+      'LABEL'
+      'EXPOSE'
+      'ENV'
+      'ADD'
+    ]
+    [
+      'COPY'
+      'ENTRYPOINT'
+      'VOLUME'
+    ]
+    [
+      'USER'
+      'WORKDIR'
+      'ONBUILD'
+    ]
+  ]
+
   # set data model
-  $scope.DockerInstruction = DockerInstruction
+  $scope.DockerInstruction = class
+    @types = _.flatten $scope.instructionTypes
+    constructor: (@checked = false, @type = @constructor.types.indexOf('空行'), @data = {}) ->
+    toggleMenu: ->
+      _.each $scope.instructions, (ins) =>
+        ins.showDropdown = false if @ != ins
+      @showDropdown = !@showDropdown
+    setType: (type) ->
+      @type = @constructor.types.indexOf(type)
+    compile: ->
+      switch @constructor.types[@type]
+        when '空行' then ''
+        when '注释' then "\# #{@data.comment || ''}"
+        else "#{@constructor.types[@type]} \# Not implemented"
+
+  $scope.instructions = []
 
   # initialize perfect scrollbar
   scrollbars = $document[0].getElementsByClassName('scroller')
@@ -47,11 +70,9 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       email: ''
     body: []
 
-  $scope.instructions = []
-
   # actions
   $scope.newInstruction = ->
-    instruction = new DockerInstruction
+    instruction = new $scope.DockerInstruction
     $scope.instructions.push instruction
 
   # helpers
@@ -66,6 +87,8 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       "MAINTAINER #{name} <#{email}>"
       ""
     ]
+
+    dockerfile = dockerfile.concat _.map $scope.instructions, (ins) -> ins.compile()
 
     dockerfile.join '\n'
 ]

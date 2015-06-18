@@ -47,13 +47,14 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
                 .ui.divided.list
                   .item(data-ng-repeat='ins in instructions')
                     .ui.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.checked = !ins.checked')
-                      input(type="checkbox", data-ng-model='ins.checked')
+                      input(type='checkbox', data-ng-model='ins.checked')
                       label
-                    .ui.floating.dropdown.labeled.button(data-ng-click='ins.showDropdown = !ins.showDropdown')
+                    .ui.floating.dropdown.labeled.button(data-ng-click='ins.toggleMenu()')
                       span.text {{DockerInstruction.types[ins.type]}}
                       .menu.transition(data-ng-class='{visible: ins.showDropdown}')
-                        .item(data-ng-repeat='type in DockerInstruction.types') {{type}}
-                    // TODO: render instructions
+                        .row(data-ng-repeat='row in instructionTypes')
+                          .item(data-ng-repeat='type in row', data-ng-click='ins.setType(type)') {{type}}
+                    //- TODO: render instructions
                 p
                   .ui.green.fluid.button(data-ng-click='newInstruction()')
                     i.fa.fa-plus.icon

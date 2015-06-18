@@ -1,3 +1,16 @@
 /*******************************
         User Overrides
 *******************************/
+.ui.dropdown .menu > .row {
+  display: flex;
+}
+
+.ui.dropdown .menu > .row > .item {
+  .ui.dropdown .menu > .item;
+}
+
+.ui.dropdown .menu > .row > .item:hover {
+  background: @hoveredItemBackground;
+  color: @hoveredItemColor;
+  z-index: @hoveredZIndex;
+}
