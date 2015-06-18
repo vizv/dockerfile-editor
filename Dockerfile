@@ -1,7 +1,5 @@
-FROM node:0.10-slim
+FROM node:0.10
 MAINTAINER Viz <viz@linux.com>
-
-RUN groupadd app && useradd --create-home --home-dir /home/app -g app app
 
 ADD . /app/
 WORKDIR /app/
