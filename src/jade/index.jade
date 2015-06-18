@@ -42,16 +42,17 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
                   input(placeholder='{{default.maintainer.name}}', type='text', value='', data-ng-model='docker.maintainer.name')
                   i.fa.fa-envelope.icon
                   input(placeholder='{{default.maintainer.email}}', type='text', style='width: 280px', value='', data-ng-model='docker.maintainer.email')
-            .body.segment
-              p STUB
-              p STUB
-              p STUB
-              p STUB
-              p STUB
-              p STUB
-              p STUB
-              p
-                .ui.primary.button(data-ng-click='test()') Angular Test Button
+            .ui.scroller(wheel-propagation="true" wheel-speed="10" min-scrollbar-length="20")
+              .segment
+                p STUB
+                p STUB
+                p STUB
+                p STUB
+                p STUB
+                p STUB
+                p STUB
+                p
+                  .ui.primary.button(data-ng-click='test()') Angular Test Button
           .ui.vertical.divider
             i.fa.fa-arrow-right.icon
           .padding.column

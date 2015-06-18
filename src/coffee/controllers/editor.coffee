@@ -1,4 +1,11 @@
-module.exports = ['$scope', ($scope) ->
+Ps = require 'perfect-scrollbar'
+
+module.exports = ['$scope', '$document', ($scope, $document) ->
+  scrollbars = $document[0].getElementsByClassName('scroller')
+
+  $scope.$evalAsync =>
+    Ps.initialize scrollbars[0]
+
   $scope.default =
     from:
       image: 'ubuntu'

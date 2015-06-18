@@ -17,6 +17,7 @@ prefix     = require 'gulp-autoprefixer'
 imagemin   = require 'gulp-imagemin'
 cson       = require 'gulp-cson'
 less       = require 'gulp-less'
+sass       = require 'gulp-sass'
 replace    = require 'gulp-replace'
 rev        = require 'gulp-rev'
 express    = require 'express'
@@ -91,11 +92,15 @@ gulp.task 'stylus', ['semantic-config'], ->
     .pipe(stylus({set: ['include css']}))
     .on 'error', err
 
-  les = gulp.src('src/less/*.less')
+  les = gulp.src('src/less/**/*.less')
     .pipe less()
     .on 'error', err
 
-  styles = es.merge styl, les
+  sas = gulp.src('src/sass/**/*.scss')
+    .pipe sass()
+    .on 'error', err
+
+  styles = es.merge styl, les, sas
     .pipe concat 'main.css'
     .pipe cmq()
     .on 'error', err
