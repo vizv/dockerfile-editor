@@ -11,7 +11,6 @@
   - 注释
   - RUN
   - CMD
-  - LABEL
   - EXPOSE
   - ENV
   - ADD
@@ -21,9 +20,6 @@
   - USER
   - WORKDIR
   - ONBUILD
-* 构建 Dockerfile
-  - ~~Header~~
-  - Body
 
 ## TODO 次要功能
 * 检查 Dockefile 和版本兼容性

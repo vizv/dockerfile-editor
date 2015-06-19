@@ -45,15 +45,15 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
             .ui.scroller
               .segment
                 .ui.divided.list
-                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}')
-                    .ui.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.onClick($event)')
+                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}', data-ng-click='ins.onClick($event)')
+                    .ui.fitted.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.onClickCheckbox($event)')
                       input(type='checkbox', data-ng-model='ins.checked')
                       label
                     .ui.floating.dropdown.labeled.button(data-ng-click='ins.toggleMenu()')
                       span.text {{DockerInstruction.types[ins.type]}}
                       .menu.transition(data-ng-class='{visible: ins.showDropdown}')
                         .row(data-ng-repeat='row in instructionTypes')
-                          .item(data-ng-repeat='type in row', data-ng-click='ins.setType(type)') {{type}}
+                          .item(data-ng-repeat='type in row', data-ng-click='ins.setType(type.name)') {{type.name}}
                     //- TODO: render instructions
                 p
                   .ui.green.fluid.button(data-ng-click='newInstruction()')

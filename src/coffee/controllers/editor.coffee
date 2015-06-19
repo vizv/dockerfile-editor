@@ -5,38 +5,92 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
   # constants
   $scope.instructionTypes = [
     [
-      '空行'
-      '注释'
-      'RUN'
-      'CMD'
+      {
+        name: '空行'
+        default: {}
+        example: {}
+      }
+      {
+        name: '注释'
+        default: {content: ''}
+        example: {content: '注释例子'}
+      }
+      {
+        name: 'RUN'
+        default: {exec: false, shell: '', exec: []}
+        example: {exec: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
+      }
+      {
+        name: 'CMD'
+        default: {exec: false, shell: '', exec: []}
+        example: {exec: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
+      }
     ]
     [
-      'LABEL'
-      'EXPOSE'
-      'ENV'
-      'ADD'
+      {
+        name: 'EXPOSE'
+        default: {ports: []}
+        example: {ports: [80, 443]}
+      }
+      {
+        name: 'ENV'
+        default: {multiple: false, single: {}, multiple: []}
+        example: {multiple: false, single: {name: 'FOOBAR', value: 'foo bar'}, multiple: [{name: 'FOO', value: 'foo value'}, {name: 'BAR', value: 'bar value'}]}
+      }
+      {
+        name: 'ADD'
+        default: {match: false, src: [], dest: ''}
+        example: {match: false, src: [{file: 'foo.txt', match: false}, {file: 'bar*.log', match: true}, {file: 'file with space.dat', match: false}], dest: '/app/'}
+      }
     ]
     [
-      'COPY'
-      'ENTRYPOINT'
-      'VOLUME'
+      {
+        name: 'COPY'
+        default: {match: false, src: [], dest: ''}
+        example: {match: false, src: [{file: 'foo.txt', match: false}, {file: 'bar*.log', match: true}, {file: 'file with space.dat', match: false}], dest: '/app/'}
+      }
+      {
+        name: 'ENTRYPOINT'
+        default: {exec: false, shell: '', exec: []}
+        example: {exec: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
+      }
+      {
+        name: 'VOLUME'
+        default: {volumes: []}
+        example: {volumes: ['/data', '/log']}
+      }
     ]
     [
-      'USER'
-      'WORKDIR'
+      {
+        name: 'USER'
+        default: {user: ''}
+        example: {user: 'daemon'}
+      }
+      {
+        name: 'WORKDIR'
+        default: {path: ''}
+        example: {path: '/app'}
+      }
     ]
   ]
 
   # set data model
   $scope.DockerInstruction = class
-    @types = _.flatten $scope.instructionTypes
+    @types = _.map _.flatten($scope.instructionTypes), (type) -> type.name
     @lastClick = null
+
     constructor: (@checked = false, @onBuild = false, type = '空行', @data = {}) ->
       @type = @constructor.types.indexOf(type)
+
     toggleMenu: ->
       _.each $scope.instructions, (ins) => ins.showDropdown = false if @ != ins
       @showDropdown = !@showDropdown
+
     onClick: ($event) ->
+      unless $event.shiftKey
+        @constructor.lastClick = @
+
+    onClickCheckbox: ($event) ->
       # query checked instructions
       checkedIns = _.filter $scope.instructions, (ins) => ins.checked
 
@@ -58,11 +112,10 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
           last = $scope.instructions.indexOf @
           [first, last] = [last, first] if last < first
           _.each $scope.instructions[first..last], (ins) => ins.checked = true
-      else
-        @constructor.lastClick = @
 
     setType: (type) ->
       @type = @constructor.types.indexOf(type)
+
     compile: ->
       switch @constructor.types[@type]
         when '空行' then ''
