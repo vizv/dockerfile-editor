@@ -24,18 +24,43 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
     [
       'USER'
       'WORKDIR'
-      'ONBUILD'
     ]
   ]
 
   # set data model
   $scope.DockerInstruction = class
     @types = _.flatten $scope.instructionTypes
-    constructor: (@checked = false, @type = @constructor.types.indexOf('空行'), @data = {}) ->
+    @lastClick = null
+    constructor: (@checked = false, @onBuild = false, type = '空行', @data = {}) ->
+      @type = @constructor.types.indexOf(type)
     toggleMenu: ->
-      _.each $scope.instructions, (ins) =>
-        ins.showDropdown = false if @ != ins
+      _.each $scope.instructions, (ins) => ins.showDropdown = false if @ != ins
       @showDropdown = !@showDropdown
+    onClick: ($event) ->
+      # query checked instructions
+      checkedIns = _.filter $scope.instructions, (ins) => ins.checked
+
+      # unless ctrl key is pressed, uncheck others
+      unless $event.ctrlKey
+        _.each $scope.instructions, (ins) => ins.checked = false if @ != ins
+
+      # if ctrl is pressed or without multiple selection, toggle checkbox
+      if $event.ctrlKey or checkedIns.length <= 1
+        @checked = !@checked
+      else
+        @checked = true
+
+      if $event.shiftKey
+        if @constructor.lastClick == @
+          @checked = false
+        else
+          first = $scope.instructions.indexOf @constructor.lastClick
+          last = $scope.instructions.indexOf @
+          [first, last] = [last, first] if last < first
+          _.each $scope.instructions[first..last], (ins) => ins.checked = true
+      else
+        @constructor.lastClick = @
+
     setType: (type) ->
       @type = @constructor.types.indexOf(type)
     compile: ->

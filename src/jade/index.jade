@@ -45,8 +45,8 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
             .ui.scroller
               .segment
                 .ui.divided.list
-                  .item(data-ng-repeat='ins in instructions')
-                    .ui.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.checked = !ins.checked')
+                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}')
+                    .ui.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.onClick($event)')
                       input(type='checkbox', data-ng-model='ins.checked')
                       label
                     .ui.floating.dropdown.labeled.button(data-ng-click='ins.toggleMenu()')

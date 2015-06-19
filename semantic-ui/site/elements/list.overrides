@@ -1,3 +1,21 @@
 /*******************************
     User Variable Overrides
 *******************************/
+.ui.divided.list > .item.active {
+  background: @selectionListHoverBackground;
+  color: @selectionListHoverColor;
+}
+
+ul.ui.list li:first-child,
+ol.ui.list li:first-child,
+.ui.list .list > .item:first-child,
+.ui.list > .item:first-child {
+  padding-top: 0.3em;
+}
+
+ul.ui.list li:last-child,
+ol.ui.list li:last-child,
+.ui.list .list > .item:last-child,
+.ui.list > .item:last-child {
+  padding-bottom: 0.3em;
+}
