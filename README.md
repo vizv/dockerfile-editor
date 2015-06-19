@@ -9,7 +9,8 @@
 * ~~设置维护者~~
 * 保存到浏览器 Local Storage
 * Dockerfile 主体
-  - 注释
+  - ~~空行~~
+  - ~~注释~~
   - RUN
   - CMD
   - EXPOSE
@@ -28,3 +29,7 @@
 * 设置行宽，对于太长的行进行折行
 * Dockerfile 实时文档
 * 载入 Dockerfile
+
+## TODO 最后优化
+* 多语言
+* 配置 CSON 化

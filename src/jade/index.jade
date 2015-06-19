@@ -67,15 +67,21 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
             .ui.scroller
               .segment
                 .ui.divided.list
-                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}', data-ng-click='ins.onClick($event)')
+                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}', data-ng-switch='ins.getType()', data-ng-click='ins.onClick($event)')
                     .ui.fitted.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.onClickCheckbox($event)')
                       input(type='checkbox', data-ng-model='ins.checked')
                       label
+                    //- TODO: temp width
                     .ui.floating.dropdown.labeled.button(data-ng-click='ins.toggleMenu()')
-                      span.text {{DockerInstruction.types[ins.type]}}
+                      span.text {{ins.getType()}}
                       .menu.transition(data-ng-class='{visible: ins.showDropdown}')
-                        .row(data-ng-repeat='row in instructionTypes')
+                        .row(data-ng-repeat='row in instructionSpecs')
                           .item(data-ng-repeat='type in row', data-ng-click='ins.setType(type.name)') {{type.name}}
+                    .ui.param
+                      .ui.pointing.left.label(data-ng-switch-when='空行')
+                        | 不需要参数
+                      .ui.fluid.input(data-ng-switch-when='注释')
+                        input(placeholder='{{instructionTypes["注释"].hints.content}}', type='text', data-ng-model='ins.data.content')
                     //- TODO: render instructions
                 p
                   .ui.green.fluid.button(data-ng-click='newInstruction()')

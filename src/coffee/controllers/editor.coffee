@@ -2,17 +2,22 @@ Ps = require 'perfect-scrollbar'
 _ = require 'underscore'
 
 module.exports = ['$scope', '$document', ($scope, $document) ->
+  # bridge underscore
+  $scope._ = _
+
   # constants
-  $scope.instructionTypes = [
+  $scope.instructionSpecs = [
     [
       {
         name: '空行'
-        default: {}
-        example: {}
+        # default: {}
+        # hints: {}
+        # example: {}
       }
       {
         name: '注释'
         default: {content: ''}
+        hints: {content: '在这里输入注释'}
         example: {content: '注释例子'}
       }
       {
@@ -75,8 +80,11 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
   ]
 
   # set data model
+  $scope.instructionTypes = {}
+  _.each _.flatten($scope.instructionSpecs), (type) ->
+    $scope.instructionTypes[type.name] = type
   $scope.DockerInstruction = class
-    @types = _.map _.flatten($scope.instructionTypes), (type) -> type.name
+    @types = _.keys $scope.instructionTypes
     @lastClick = null
 
     constructor: (@checked = false, @onBuild = false, type = '空行', @data = {}) ->
@@ -115,11 +123,15 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
 
     setType: (type) ->
       @type = @constructor.types.indexOf(type)
+      _.defaults @data, $scope.instructionTypes[type].default
+
+    getType: ->
+      @constructor.types[@type]
 
     compile: ->
       switch @constructor.types[@type]
         when '空行' then ''
-        when '注释' then "\# #{@data.comment || ''}"
+        when '注释' then "\# #{@data.content}"
         else "#{@constructor.types[@type]} \# Not implemented"
 
   $scope.instructions = []
