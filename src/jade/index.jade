@@ -19,11 +19,33 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
     link(rel='icon', type='image/png', href='favicon-16x16.png', sizes='16x16')
   body
     .app
-      .ui.fixed.inverted.main.xlarge.menu
+      .ui.fixed.inverted.main.large.menu
         .ui.page.grid
           .sixteen.wide.column
             .title.item
               b Dockerfile 在线编辑器
+            a.direction.icon.link.borderless.item
+              i.fa.fa-arrow-up.icon
+            .direction.borderless.item
+              | 移动
+            a.direction.icon.link.item
+              i.fa.fa-arrow-down.icon
+            a.direction.icon.link.borderless.item
+              i.fa.fa-chevron-up.icon
+            .direction.borderless.item
+              | 插入
+            a.direction.icon.link.item
+              i.fa.fa-chevron-down.icon
+            a.link.item
+              i.fa.fa-close.icon
+              | 删除
+            .right.menu
+              a.link.item
+                i.fa.fa-save.icon
+                | 保存
+              a.link.item
+                i.fa.fa-folder-open.icon
+                | 载入
       .editor(data-ng-controller='Editor')
         .ui.two.column.middle.aligned.relaxed.fitted.stackable.page.padding.grid
           .padding.column

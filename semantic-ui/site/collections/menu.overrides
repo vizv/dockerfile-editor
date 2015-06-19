@@ -26,3 +26,12 @@
 .ui.xlarge.vertical.menu {
   width: @xlargeWidth;
 }
+
+.ui.menu .link.item {
+  cursor: pointer;
+}
+
+.ui.menu .direction.item {
+  padding-left: 5px;
+  padding-right: 5px;
+}

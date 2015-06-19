@@ -2,11 +2,12 @@
 
 ## TODO 主要功能
 * ~~页面布局~~
-* 功能性按钮
+* ~~功能性按钮~~
 * ~~设置源镜像~~
 * 从 Docker Registry 搜索源镜像
 * Dockerfile 语法高亮
 * ~~设置维护者~~
+* 保存到浏览器 Local Storage
 * Dockerfile 主体
   - 注释
   - RUN
@@ -26,5 +27,4 @@
 * 解决 ADD/COPY 文件夹问题
 * 设置行宽，对于太长的行进行折行
 * Dockerfile 实时文档
-* 保存到浏览器 Local Storage
 * 载入 Dockerfile
