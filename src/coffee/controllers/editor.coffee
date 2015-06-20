@@ -138,9 +138,18 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       @data.toggle = !@data.toggle
 
     compile: ->
-      switch @constructor.types[@type]
+      qoute = (str) -> str.indexOf(' ') == -1 && str || "\"#{str}\""
+
+      switch type = @constructor.types[@type]
         when '空行' then ''
         when '注释' then "\# #{@data.content}"
+        when 'RUN', 'CMD', 'ENTRYPOINT'
+          content = if @data.toggle
+            "[#{_.map(@data.exec, (cmd) -> "\"#{cmd.content}\"").join ', '}]"
+          else
+            qoute @data.shell
+
+          "#{type} #{content}"
         else "#{@constructor.types[@type]} \# Not implemented"
 
   $scope.instructions = []

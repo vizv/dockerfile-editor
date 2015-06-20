@@ -11,13 +11,13 @@
 * Dockerfile 主体
   - ~~空行~~
   - ~~注释~~
-  - RUN
-  - CMD
+  - ~~RUN~~
+  - ~~CMD~~
   - EXPOSE
   - ENV
   - ADD
   - COPY
-  - ENTRYPOINT
+  - ~~ENTRYPOINT~~
   - VOLUME
   - USER
   - WORKDIR
