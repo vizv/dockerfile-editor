@@ -105,7 +105,7 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
                           input(placeholder='{{($index === 0) && instructionTypes[ins.getType()].hints.exec.cmd || instructionTypes[ins.getType()].hints.exec.param}}', type='text', data-ng-model='arg')
                       //- TODO: render instructions
                 p
-                  .ui.green.fluid.button(data-ng-click='newInstruction()')
+                  .ui.green.fluid.button(data-ng-click='ListUtil.add(instructions, DockerInstruction.new())')
                     i.fa.fa-plus.icon
                     | 新指令
           .ui.vertical.divider

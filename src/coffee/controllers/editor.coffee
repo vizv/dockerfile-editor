@@ -188,15 +188,10 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       email: ''
     body: []
 
-  # actions
-  $scope.newInstruction = ->
-    instruction = new $scope.DockerInstruction
-    $scope.instructions.push instruction
-
   # helpers
   $scope.ListUtil =
-    add: (array, items) ->
-      array.concat items
+    add: (array, item) ->
+      array.push item
 
     insertUp: (array, target, item) ->
       if (i = array.indexOf target) != -1
