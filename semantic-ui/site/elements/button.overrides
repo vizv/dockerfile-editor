@@ -1,3 +1,7 @@
 /*******************************
          Site Overrides
 *******************************/
+.ui.icon.buttons .ui.button {
+  padding-left: 0;
+  padding-right: 0;
+}

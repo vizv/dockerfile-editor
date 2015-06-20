@@ -10,57 +10,72 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
     [
       {
         name: '空行'
-        # default: {}
-        # hints: {}
-        # example: {}
+        renderType: 'BLANK'
+        default: {}
+        hints: {}
+        example: {}
       }
       {
         name: '注释'
+        renderType: 'COMMENT'
         default: {content: ''}
-        hints: {content: '在这里输入注释'}
+        hints: {content: '注释'}
         example: {content: '注释例子'}
       }
       {
         name: 'RUN'
-        default: {exec: false, shell: '', exec: []}
-        example: {exec: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
+        renderType: 'EXEC'
+        default: {toggle: false, shell: '', exec: ['']}
+        hints: {shell: '执行的命令和参数', exec: {cmd: '执行的命令', param: '执行命令的参数'}}
+        example: {toggle: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
       }
       {
         name: 'CMD'
-        default: {exec: false, shell: '', exec: []}
-        example: {exec: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
+        renderType: 'EXEC'
+        default: {toggle: false, shell: '', exec: []}
+        hints: {shell: '默认执行的命令和参数', exec: {cmd: '默认执行的命令', param: '默认执行命令的参数'}}
+        example: {toggle: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
       }
     ]
     [
       {
         name: 'EXPOSE'
+        renderType: 'PORT'
         default: {ports: []}
+        hints: {port: '要映射的端口'}
         example: {ports: [80, 443]}
       }
       {
         name: 'ENV'
-        default: {multiple: false, single: {}, multiple: []}
-        example: {multiple: false, single: {name: 'FOOBAR', value: 'foo bar'}, multiple: [{name: 'FOO', value: 'foo value'}, {name: 'BAR', value: 'bar value'}]}
+        renderType: 'MAP'
+        default: {toggle: false, single: {}, multiple: []}
+        hints: {single: {name: '环境变量名', value: '环境变量值'}}
+        example: {toggle: false, single: {name: 'FOOBAR', value: 'foo bar'}, multiple: [{name: 'FOO', value: 'foo value'}, {name: 'BAR', value: 'bar value'}]}
       }
       {
         name: 'ADD'
-        default: {match: false, src: [], dest: ''}
-        example: {match: false, src: [{file: 'foo.txt', match: false}, {file: 'bar*.log', match: true}, {file: 'file with space.dat', match: false}], dest: '/app/'}
+        renderType: 'FILE'
+        default: {toggle: false, src: [], dest: ''}
+        example: {toggle: false, src: [{file: 'foo.txt', match: false}, {file: 'bar*.log', match: true}, {file: 'file with space.dat', match: false}], dest: '/app/'}
       }
     ]
     [
       {
         name: 'COPY'
-        default: {match: false, src: [], dest: ''}
-        example: {match: false, src: [{file: 'foo.txt', match: false}, {file: 'bar*.log', match: true}, {file: 'file with space.dat', match: false}], dest: '/app/'}
+        renderType: 'FILE'
+        default: {toggle: false, src: [], dest: ''}
+        example: {toggle: false, src: [{file: 'foo.txt', match: false}, {file: 'bar*.log', match: true}, {file: 'file with space.dat', match: false}], dest: '/app/'}
       }
       {
         name: 'ENTRYPOINT'
-        default: {exec: false, shell: '', exec: []}
-        example: {exec: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
+        renderType: 'EXEC'
+        default: {toggle: false, shell: '', exec: []}
+        hints: {shell: '入口命令和参数', exec: {cmd: '入口命令', param: '入口命令的参数'}}
+        example: {toggle: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
       }
       {
         name: 'VOLUME'
+        renderType: 'VOL'
         default: {volumes: []}
         example: {volumes: ['/data', '/log']}
       }
@@ -68,11 +83,13 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
     [
       {
         name: 'USER'
+        renderType: 'USER'
         default: {user: ''}
         example: {user: 'daemon'}
       }
       {
         name: 'WORKDIR'
+        renderType: 'PATH'
         default: {path: ''}
         example: {path: '/app'}
       }
@@ -128,6 +145,15 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
     getType: ->
       @constructor.types[@type]
 
+    getRenderType: ->
+      $scope.instructionTypes[@getType()].renderType
+
+    hasToggle: ->
+      $scope.instructionTypes[@getType()].default.toggle != undefined
+
+    toggleMode: ->
+      @data.toggle = !@data.toggle
+
     compile: ->
       switch @constructor.types[@type]
         when '空行' then ''
@@ -165,7 +191,6 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
     instruction = new $scope.DockerInstruction
     $scope.instructions.push instruction
 
-  # helpers
   $scope.genDockerfile = ->
     image = $scope['docker']['from']['image'] || $scope['default']['from']['image']
     tag = $scope['docker']['from']['tag'] || $scope['default']['from']['tag']

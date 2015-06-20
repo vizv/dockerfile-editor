@@ -67,22 +67,43 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
             .ui.scroller
               .segment
                 .ui.divided.list
-                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}', data-ng-switch='ins.getType()', data-ng-click='ins.onClick($event)')
-                    .ui.fitted.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.onClickCheckbox($event)')
-                      input(type='checkbox', data-ng-model='ins.checked')
-                      label
-                    //- TODO: temp width
-                    .ui.floating.dropdown.labeled.button(data-ng-click='ins.toggleMenu()')
-                      span.text {{ins.getType()}}
-                      .menu.transition(data-ng-class='{visible: ins.showDropdown}')
-                        .row(data-ng-repeat='row in instructionSpecs')
-                          .item(data-ng-repeat='type in row', data-ng-click='ins.setType(type.name)') {{type.name}}
-                    .ui.param
-                      .ui.pointing.left.label(data-ng-switch-when='空行')
+                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}', data-ng-switch='ins.getRenderType()', data-ng-click='ins.onClick($event)')
+                    .control
+                      .ui.fitted.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.onClickCheckbox($event)')
+                        input(type='checkbox', data-ng-model='ins.checked')
+                        label
+                      .ui.floating.dropdown.labeled.button(data-ng-click='ins.toggleMenu()')
+                        span.text {{ins.getType()}}
+                        .menu.transition(data-ng-class='{visible: ins.showDropdown}')
+                          .row(data-ng-repeat='row in instructionSpecs')
+                            .item(data-ng-repeat='type in row', data-ng-click='ins.setType(type.name)') {{type.name}}
+                      .ui.toggle.fitted.checkbox(data-ng-if='ins.hasToggle()', data-ng-class='{checked: ins.checked}', data-ng-click='ins.toggleMode()')
+                        input(type='checkbox', data-ng-model='ins.data.toggle')
+                        label
+                    .ui.param(data-ng-class='{toggle: ins.hasToggle()}')
+                      .ui.pointing.left.label(data-ng-switch-when='BLANK')
                         | 不需要参数
-                      .ui.fluid.input(data-ng-switch-when='注释')
+                      .ui.fluid.input(data-ng-switch-when='COMMENT')
                         input(placeholder='{{instructionTypes["注释"].hints.content}}', type='text', data-ng-model='ins.data.content')
-                    //- TODO: render instructions
+                      .param-exec(data-ng-switch-when='EXEC')
+                        .ui.fluid.input(data-ng-if='!ins.data.toggle')
+                          input(placeholder='{{instructionTypes[ins.getType()].hints.shell}}', type='text', data-ng-model='ins.data.shell')
+                        .ui.six.fluid.icon.buttons(data-ng-if='ins.data.toggle')
+                          .ui.button
+                            i.fa.fa-plus.icon
+                          .ui.button
+                            i.fa.fa-arrow-up.icon
+                          .ui.button
+                            i.fa.fa-arrow-down.icon
+                          .ui.button
+                            i.fa.fa-chevron-up.icon
+                          .ui.button
+                            i.fa.fa-chevron-down.icon
+                          .ui.button
+                            i.fa.fa-close.icon
+                        .ui.fluid.input(data-ng-if='ins.data.toggle', data-ng-repeat='arg in ins.data.exec')
+                          input(placeholder='{{($index === 0) && instructionTypes[ins.getType()].hints.exec.cmd || instructionTypes[ins.getType()].hints.exec.param}}', type='text', data-ng-model='arg')
+                      //- TODO: render instructions
                 p
                   .ui.green.fluid.button(data-ng-click='newInstruction()')
                     i.fa.fa-plus.icon
