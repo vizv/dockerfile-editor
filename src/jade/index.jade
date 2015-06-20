@@ -67,9 +67,9 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
             .ui.scroller
               .segment
                 .ui.divided.list
-                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}', data-ng-switch='ins.getRenderType()', data-ng-click='ins.onClick($event)')
+                  .item(data-ng-repeat='ins in instructions', data-ng-class='{active: ins == DockerInstruction.lastClick}', data-ng-switch='ins.getRenderType()', data-ng-click='ListUtil.onClick(DockerInstruction, ins, $event)')
                     .control
-                      .ui.fitted.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ins.onClickCheckbox($event)')
+                      .ui.fitted.checkbox(data-ng-class='{checked: ins.checked}', data-ng-click='ListUtil.onClickCheckbox(DockerInstruction, instructions, ins, $event)')
                         input(type='checkbox', data-ng-model='ins.checked')
                         label
                       .ui.floating.dropdown.labeled.button(data-ng-click='ins.toggleMenu()')
@@ -80,7 +80,7 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
                       .ui.toggle.fitted.checkbox(data-ng-if='ins.hasToggle()', data-ng-class='{checked: ins.checked}', data-ng-click='ins.toggleMode()')
                         input(type='checkbox', data-ng-model='ins.data.toggle')
                         label
-                    .ui.param(data-ng-class='{toggle: ins.hasToggle()}')
+                    .param(data-ng-class='{toggle: ins.hasToggle()}')
                       .ui.pointing.left.label(data-ng-switch-when='BLANK')
                         | 不需要参数
                       .ui.fluid.input(data-ng-switch-when='COMMENT')
@@ -89,20 +89,24 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
                         .ui.fluid.input(data-ng-if='!ins.data.toggle')
                           input(placeholder='{{instructionTypes[ins.getType()].hints.shell}}', type='text', data-ng-model='ins.data.shell')
                         .ui.six.fluid.icon.buttons(data-ng-if='ins.data.toggle')
-                          .ui.button
+                          .ui.button(data-ng-click='ListUtil.add(ins.data.exec, {checked: false, content: ""})')
                             i.fa.fa-plus.icon
-                          .ui.button
+                          .ui.button(data-ng-click='ListUtil.moveUp(ins.data.exec)')
                             i.fa.fa-arrow-up.icon
-                          .ui.button
+                          .ui.button(data-ng-click='ListUtil.moveDown(ins.data.exec)')
                             i.fa.fa-arrow-down.icon
-                          .ui.button
+                          .ui.button(data-ng-click='ListUtil.insertUp(ins.data.exec, ins.data.lastClick, {checked: false, content: ""})')
                             i.fa.fa-chevron-up.icon
-                          .ui.button
+                          .ui.button(data-ng-click='ListUtil.insertDown(ins.data.exec, ins.data.lastClick, {checked: false, content: ""})')
                             i.fa.fa-chevron-down.icon
-                          .ui.button
+                          .ui.button(data-ng-click='ListUtil.removeAll(ins.data.exec)')
                             i.fa.fa-close.icon
-                        .ui.fluid.input(data-ng-if='ins.data.toggle', data-ng-repeat='arg in ins.data.exec')
-                          input(placeholder='{{($index === 0) && instructionTypes[ins.getType()].hints.exec.cmd || instructionTypes[ins.getType()].hints.exec.param}}', type='text', data-ng-model='arg')
+                        .row(data-ng-if='ins.data.toggle', data-ng-repeat='arg in ins.data.exec', data-ng-click='ListUtil.onClick(ins.data, arg, $event)')
+                          .ui.fitted.checkbox(data-ng-class='{checked: arg.checked}', data-ng-click='ListUtil.onClickCheckbox(ins.data, ins.data.exec, arg, $event)')
+                            input(type='checkbox', data-ng-model='arg.checked')
+                            label
+                          .ui.fluid.input
+                            input(placeholder='{{($index === 0) && instructionTypes[ins.getType()].hints.exec.cmd || instructionTypes[ins.getType()].hints.exec.param}}', type='text', data-ng-model='arg.content')
                       //- TODO: render instructions
                 p
                   .ui.green.fluid.button(data-ng-click='ListUtil.add(instructions, DockerInstruction.new())')

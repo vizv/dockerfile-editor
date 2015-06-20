@@ -1,6 +1,13 @@
 Ps = require 'perfect-scrollbar'
 _ = require 'underscore'
 
+deepclone = (object) ->
+  clone = _.clone object
+  _.each clone, (value, key) -> clone[key] = deepclone value if _.isObject value
+  clone
+
+_.deepClone = deepclone
+
 module.exports = ['$scope', '$document', ($scope, $document) ->
   # bridge underscore
   $scope._ = _
@@ -25,14 +32,14 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       {
         name: 'RUN'
         renderType: 'EXEC'
-        default: {toggle: false, shell: '', exec: ['']}
+        default: {toggle: false, shell: '', exec: [{checked: false, content: ''}]} # TODO: refactor this!
         hints: {shell: '执行的命令和参数', exec: {cmd: '执行的命令', param: '执行命令的参数'}}
-        example: {toggle: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
+        example: {toggle: false, shell: 'ping localhost', exec: [{content: 'ping'}, {content: 'localhost'}]}
       }
       {
         name: 'CMD'
         renderType: 'EXEC'
-        default: {toggle: false, shell: '', exec: []}
+        default: {toggle: false, shell: '', exec: [{checked: false, content: ''}]}
         hints: {shell: '默认执行的命令和参数', exec: {cmd: '默认执行的命令', param: '默认执行命令的参数'}}
         example: {toggle: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
       }
@@ -69,7 +76,7 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       {
         name: 'ENTRYPOINT'
         renderType: 'EXEC'
-        default: {toggle: false, shell: '', exec: []}
+        default: {toggle: false, shell: '', exec: [{checked: false, content: ''}]}
         hints: {shell: '入口命令和参数', exec: {cmd: '入口命令', param: '入口命令的参数'}}
         example: {toggle: false, shell: 'ping localhost', exec: ['ping', 'localhost']}
       }
@@ -102,7 +109,7 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
     $scope.instructionTypes[type.name] = type
   $scope.DockerInstruction = class
     @types = _.keys $scope.instructionTypes
-    @lastClick = null
+    @lastClick = 0
     @new = (checked = false, onBuild = false, type = '空行', data = {}) ->
       new $scope.DockerInstruction checked, onBuild, type, data
 
@@ -113,36 +120,10 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       _.each $scope.instructions, (ins) => ins.showDropdown = false if @ != ins
       @showDropdown = !@showDropdown
 
-    onClick: ($event) ->
-      unless $event.shiftKey
-        @constructor.lastClick = @
-
-    onClickCheckbox: ($event) ->
-      # query checked instructions
-      checkedIns = _.filter $scope.instructions, (ins) => ins.checked
-
-      # unless ctrl key is pressed, uncheck others
-      unless $event.ctrlKey
-        _.each $scope.instructions, (ins) => ins.checked = false if @ != ins
-
-      # if ctrl is pressed or without multiple selection, toggle checkbox
-      if $event.ctrlKey or checkedIns.length <= 1
-        @checked = !@checked
-      else
-        @checked = true
-
-      if $event.shiftKey
-        if @constructor.lastClick == @
-          @checked = false
-        else
-          first = $scope.instructions.indexOf @constructor.lastClick
-          last = $scope.instructions.indexOf @
-          [first, last] = [last, first] if last < first
-          _.each $scope.instructions[first..last], (ins) => ins.checked = true
-
     setType: (type) ->
       @type = @constructor.types.indexOf(type)
-      _.defaults @data, $scope.instructionTypes[type].default
+      _.defaults @data, _.deepClone $scope.instructionTypes[type].default
+      @data.lastClick = 0
 
     getType: ->
       @constructor.types[@type]
@@ -220,6 +201,32 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
         if array[i][tag] and array[i + 1] and !array[i + 1][tag]
           [array[i], array[i + 1]] = [array[i + 1], array[i]]
 
+    onClickCheckbox: (klass, collection, instance, $event) ->
+      # query checked objects
+      checkedObjs = _.filter collection, (obj) => obj.checked
+
+      # unless ctrl key is pressed, uncheck others
+      unless $event.ctrlKey
+        _.each collection, (obj) => obj.checked = false if instance != obj
+
+      # if ctrl is pressed or without multiple selection, toggle checkbox
+      if $event.ctrlKey or checkedObjs.length <= 1
+        instance.checked = !instance.checked
+      else
+        instance.checked = true
+
+      if $event.shiftKey
+        if klass.lastClick == instance
+          instance.checked = false
+        else
+          first = collection.indexOf klass.lastClick
+          last = collection.indexOf instance
+          [first, last] = [last, first] if last < first
+          _.each collection[first..last], (obj) => obj.checked = true
+
+    onClick: (klass, instance, $event) ->
+      unless $event.shiftKey
+        klass.lastClick = instance
 
   $scope.genDockerfile = ->
     image = $scope['docker']['from']['image'] || $scope['default']['from']['image']

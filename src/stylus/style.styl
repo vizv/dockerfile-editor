@@ -12,10 +12,25 @@
     left globalMargin
 
     .scroller
-      .item > .control
-        display inline-block
-        vertical-align top
-        margin-left 4px
+      .item
+        & > .control
+          display inline-block
+          vertical-align top
+          margin-left 4px
+
+        & > .param
+          display inline-block
+          vertical-align middle
+          width calc(100% - 153px)
+
+          &.toggle
+            width calc(100% - 206px)
+
+          .param-exec > *
+            margin-top 3px
+          .param-exec > :first-child
+            margin-top 0
+
       .dropdown.button
         width 120px
         padding-left 10px
