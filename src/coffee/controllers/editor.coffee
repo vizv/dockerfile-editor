@@ -103,6 +103,8 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
   $scope.DockerInstruction = class
     @types = _.keys $scope.instructionTypes
     @lastClick = null
+    @new = (checked = false, onBuild = false, type = '空行', data = {}) ->
+      new $scope.DockerInstruction checked, onBuild, type, data
 
     constructor: (@checked = false, @onBuild = false, type = '空行', @data = {}) ->
       @type = @constructor.types.indexOf(type)
@@ -190,6 +192,39 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
   $scope.newInstruction = ->
     instruction = new $scope.DockerInstruction
     $scope.instructions.push instruction
+
+  # helpers
+  $scope.ListUtil =
+    add: (array, items) ->
+      array.concat items
+
+    insertUp: (array, target, item) ->
+      if (i = array.indexOf target) != -1
+        array.splice i, 0, item
+
+    insertDown: (array, target, item) ->
+      if (i = array.indexOf target) != -1
+        array.splice i + 1, 0, item
+
+    removeOne: (array, item) ->
+      if (i = array.indexOf item) != -1
+        array.splice i, 1
+
+    removeAll: (array, tag = 'checked') ->
+      for i in [array.length - 1..0]
+        if array[i][tag]
+          array.splice i, 1
+
+    moveUp: (array, tag = 'checked') ->
+      for i in [0..array.length - 1]
+        if array[i][tag] and array[i - 1] and !array[i - 1][tag]
+          [array[i], array[i - 1]] = [array[i - 1], array[i]]
+
+    moveDown: (array, tag = 'checked') ->
+      for i in [array.length - 1..0]
+        if array[i][tag] and array[i + 1] and !array[i + 1][tag]
+          [array[i], array[i + 1]] = [array[i + 1], array[i]]
+
 
   $scope.genDockerfile = ->
     image = $scope['docker']['from']['image'] || $scope['default']['from']['image']

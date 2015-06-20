@@ -18,25 +18,25 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
     link(rel='icon', type='image/png', href='favicon-24x24.png', sizes='24x24')
     link(rel='icon', type='image/png', href='favicon-16x16.png', sizes='16x16')
   body
-    .app
+    .app(data-ng-controller='Editor')
       .ui.fixed.inverted.main.large.menu
         .ui.page.grid
           .sixteen.wide.column
             .title.item
               b Dockerfile 在线编辑器
-            a.direction.icon.link.borderless.item
+            a.direction.icon.link.borderless.item(data-ng-click='ListUtil.moveUp(instructions)')
               i.fa.fa-arrow-up.icon
             .direction.borderless.item
               | 移动
-            a.direction.icon.link.item
+            a.direction.icon.link.item(data-ng-click='ListUtil.moveDown(instructions)')
               i.fa.fa-arrow-down.icon
-            a.direction.icon.link.borderless.item
+            a.direction.icon.link.borderless.item(data-ng-click='ListUtil.insertUp(instructions, DockerInstruction.lastClick, DockerInstruction.new())')
               i.fa.fa-chevron-up.icon
             .direction.borderless.item
               | 插入
-            a.direction.icon.link.item
+            a.direction.icon.link.item(data-ng-click='ListUtil.insertDown(instructions, DockerInstruction.lastClick, DockerInstruction.new())')
               i.fa.fa-chevron-down.icon
-            a.link.item
+            a.link.item(data-ng-click='ListUtil.removeAll(instructions)')
               i.fa.fa-close.icon
               | 删除
             .right.menu
@@ -46,7 +46,7 @@ html(lang='zh-Hans', data-ng-app='dockerfileEditor')
               a.link.item
                 i.fa.fa-folder-open.icon
                 | 载入
-      .editor(data-ng-controller='Editor')
+      .editor
         .ui.two.column.middle.aligned.relaxed.fitted.stackable.page.padding.grid
           .padding.column
             .segment
