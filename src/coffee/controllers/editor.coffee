@@ -48,7 +48,7 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       {
         name: 'EXPOSE'
         renderType: 'PORT'
-        default: {ports: []}
+        default: {multi: true, ports: []}
         hints: {port: '要映射的端口'}
         example: {ports: [80, 443]}
       }
@@ -83,7 +83,7 @@ module.exports = ['$scope', '$document', ($scope, $document) ->
       {
         name: 'VOLUME'
         renderType: 'VOL'
-        default: {volumes: []}
+        default: {multi: true, volumes: []}
         example: {volumes: ['/data', '/log']}
       }
     ]
